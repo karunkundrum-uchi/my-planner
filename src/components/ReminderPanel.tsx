@@ -8,9 +8,16 @@ interface Props {
   onAdd: (text: string, time?: string) => void
   onDelete: (id: string) => void
   variant?: 'default' | 'compact'
+  maxVisible?: number
 }
 
-export default function ReminderPanel({ reminders, onAdd, onDelete, variant = 'default' }: Props) {
+export default function ReminderPanel({
+  reminders,
+  onAdd,
+  onDelete,
+  variant = 'default',
+  maxVisible,
+}: Props) {
   const [adding, setAdding] = useState(false)
   const [text, setText] = useState('')
   const [time, setTime] = useState('')
@@ -31,18 +38,20 @@ export default function ReminderPanel({ reminders, onAdd, onDelete, variant = 'd
     if (!b.time) return -1
     return a.time.localeCompare(b.time)
   })
+  const visibleReminders = maxVisible ? sorted.slice(0, maxVisible) : sorted
+  const hiddenCount = reminders.length - visibleReminders.length
 
   return (
-    <div className={`flex flex-col ${compact ? 'gap-2' : 'gap-3'}`}>
+    <div className={`flex flex-col ${compact ? 'gap-1.5' : 'gap-3'}`}>
       <h2 className={`${compact ? 'text-xs tracking-[0.2em]' : 'text-sm tracking-[0.22em]'} mb-1 font-bold uppercase text-warm-muted`}>Reminders</h2>
 
-      <div className={`flex flex-col ${compact ? 'gap-1.5' : 'gap-2'}`}>
-        {sorted.map(reminder => (
-          <div key={reminder.id} className={`${compact ? 'gap-2.5 rounded-xl px-3 py-2.5' : 'gap-3 rounded-2xl px-4 py-3.5'} group flex items-start border border-warm-border bg-warm-card transition-colors hover:bg-warm-surface`}>
-            <span className={`${compact ? 'w-11 px-1.5 py-0.5 text-[10px]' : 'w-14 px-2 py-1 text-[11px]'} mt-0.5 shrink-0 rounded-full border border-warm-border bg-warm-surface text-center font-semibold leading-none text-warm-muted tabular-nums`}>
+      <div className={`flex flex-col ${compact ? 'gap-1' : 'gap-2'}`}>
+        {visibleReminders.map(reminder => (
+          <div key={reminder.id} className={`${compact ? 'gap-2 rounded-xl px-2.5 py-2' : 'gap-3 rounded-2xl px-4 py-3.5'} group flex items-start border border-warm-border bg-warm-card transition-colors hover:bg-warm-surface`}>
+            <span className={`${compact ? 'w-10 px-1 py-0.5 text-[9px]' : 'w-14 px-2 py-1 text-[11px]'} mt-0.5 shrink-0 rounded-full border border-warm-border bg-warm-surface text-center font-semibold leading-none text-warm-muted tabular-nums`}>
               {reminder.time ?? '—'}
             </span>
-            <span className={`flex-1 ${compact ? 'text-xs leading-5' : 'text-sm leading-6'} text-warm-text`}>{reminder.text}</span>
+            <span className={`flex-1 ${compact ? 'text-[11px] leading-[1.1rem]' : 'text-sm leading-6'} text-warm-text`}>{reminder.text}</span>
             <button
               onClick={() => onDelete(reminder.id)}
               className={`${compact ? 'text-xs' : 'text-sm'} shrink-0 text-warm-muted opacity-0 transition-all hover:text-warm-high group-hover:opacity-100`}
@@ -51,6 +60,11 @@ export default function ReminderPanel({ reminders, onAdd, onDelete, variant = 'd
             </button>
           </div>
         ))}
+        {hiddenCount > 0 && (
+          <p className={`${compact ? 'px-1 text-[10px]' : 'px-1 text-xs'} text-warm-muted`}>
+            +{hiddenCount} more on the full page
+          </p>
+        )}
       </div>
 
       {adding ? (

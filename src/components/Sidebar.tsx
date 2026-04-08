@@ -30,14 +30,14 @@ export default function Sidebar({
 }: Props) {
   return (
     <aside className="w-full shrink-0 border-b border-warm-border bg-warm-sidebar lg:w-80 lg:border-b-0 lg:border-r">
-      <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-1 lg:p-5">
-        <div className="rounded-3xl border border-warm-border bg-warm-surface p-4">
-          <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="grid gap-2.5 p-4 sm:grid-cols-2 lg:grid-cols-1 lg:p-4">
+        <div className="rounded-3xl border border-warm-border bg-warm-surface p-3.5">
+          <div className="mb-2.5 flex items-center justify-between gap-3">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-warm-muted">
                 Todos
               </p>
-              <p className="mt-1 text-2xl font-semibold text-warm-text">{todoCount}</p>
+              <p className="mt-0.5 text-xl font-semibold text-warm-text">{todoCount}</p>
             </div>
             <Link
               href="/todos"
@@ -52,16 +52,17 @@ export default function Sidebar({
             onToggle={onToggleTodo}
             onDelete={onDeleteTodo}
             variant="compact"
+            maxVisible={3}
           />
         </div>
 
-        <div className="rounded-3xl border border-warm-border bg-warm-surface p-4">
-          <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="rounded-3xl border border-warm-border bg-warm-surface p-3.5">
+          <div className="mb-2.5 flex items-center justify-between gap-3">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-warm-muted">
                 Reminders
               </p>
-              <p className="mt-1 text-2xl font-semibold text-warm-text">{reminderCount}</p>
+              <p className="mt-0.5 text-xl font-semibold text-warm-text">{reminderCount}</p>
             </div>
             <Link
               href="/reminders"
@@ -75,6 +76,7 @@ export default function Sidebar({
             onAdd={onAddReminder}
             onDelete={onDeleteReminder}
             variant="compact"
+            maxVisible={3}
           />
         </div>
       </div>

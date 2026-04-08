@@ -15,9 +15,17 @@ interface Props {
   onToggle: (id: string) => void
   onDelete: (id: string) => void
   variant?: 'default' | 'compact'
+  maxVisible?: number
 }
 
-export default function TodoPanel({ todos, onAdd, onToggle, onDelete, variant = 'default' }: Props) {
+export default function TodoPanel({
+  todos,
+  onAdd,
+  onToggle,
+  onDelete,
+  variant = 'default',
+  maxVisible,
+}: Props) {
   const [adding, setAdding] = useState(false)
   const [title, setTitle] = useState('')
   const [priority, setPriority] = useState<Priority>('medium')
@@ -34,9 +42,14 @@ export default function TodoPanel({ todos, onAdd, onToggle, onDelete, variant = 
   const pending = todos.filter(t => !t.done)
   const done = todos.filter(t => t.done)
   const compact = variant === 'compact'
+  const visiblePending = pending.slice(0, maxVisible)
+  const remainingSlots = Math.max((maxVisible ?? pending.length) - visiblePending.length, 0)
+  const visibleDone = done.slice(0, remainingSlots)
+  const visibleTodos = maxVisible ? [...visiblePending, ...visibleDone] : [...pending, ...done]
+  const hiddenCount = todos.length - visibleTodos.length
 
   return (
-    <div className={`flex flex-col ${compact ? 'gap-2' : 'gap-3'}`}>
+    <div className={`flex flex-col ${compact ? 'gap-1.5' : 'gap-3'}`}>
       <div className="mb-1 flex items-center justify-between">
         <h2 className={`${compact ? 'text-xs tracking-[0.2em]' : 'text-sm tracking-[0.22em]'} font-bold uppercase text-warm-muted`}>
           Todos
@@ -48,13 +61,15 @@ export default function TodoPanel({ todos, onAdd, onToggle, onDelete, variant = 
         )}
       </div>
 
-      <div className={`flex flex-col ${compact ? 'gap-1.5' : 'gap-2'}`}>
-        {pending.map(todo => (
+      <div className={`flex flex-col ${compact ? 'gap-1' : 'gap-2'}`}>
+        {visibleTodos.map(todo => (
           <TodoRow key={todo.id} todo={todo} onToggle={onToggle} onDelete={onDelete} dotColor={dotColor} compact={compact} />
         ))}
-        {done.map(todo => (
-          <TodoRow key={todo.id} todo={todo} onToggle={onToggle} onDelete={onDelete} dotColor={dotColor} compact={compact} />
-        ))}
+        {hiddenCount > 0 && (
+          <p className={`${compact ? 'px-1 text-[10px]' : 'px-1 text-xs'} text-warm-muted`}>
+            +{hiddenCount} more on the full page
+          </p>
+        )}
       </div>
 
       {adding ? (
@@ -102,7 +117,7 @@ function TodoRow({ todo, onToggle, onDelete, dotColor, compact }: {
   compact: boolean
 }) {
   return (
-    <div className={`${compact ? 'gap-2.5 rounded-xl px-3 py-2.5' : 'gap-3 rounded-2xl px-4 py-3.5'} group flex items-center border border-warm-border bg-warm-card transition-colors hover:bg-warm-surface`}>
+    <div className={`${compact ? 'gap-2 rounded-xl px-2.5 py-2' : 'gap-3 rounded-2xl px-4 py-3.5'} group flex items-center border border-warm-border bg-warm-card transition-colors hover:bg-warm-surface`}>
       <button
         onClick={() => onToggle(todo.id)}
         className={`flex shrink-0 items-center justify-center rounded-md border transition-colors ${compact ? 'h-4 w-4' : 'h-5 w-5'} ${
@@ -114,7 +129,7 @@ function TodoRow({ todo, onToggle, onDelete, dotColor, compact }: {
         {todo.done && <span className={`${compact ? 'text-[9px]' : 'text-[10px]'} leading-none`}>✓</span>}
       </button>
       <span className={`${compact ? 'h-1.5 w-1.5' : 'h-2 w-2'} shrink-0 rounded-full ${dotColor[todo.priority]}`} />
-      <span className={`flex-1 ${compact ? 'text-xs leading-5' : 'text-sm leading-6'} ${todo.done ? 'line-through text-warm-muted' : 'text-warm-text'}`}>
+      <span className={`flex-1 ${compact ? 'text-[11px] leading-[1.1rem]' : 'text-sm leading-6'} ${todo.done ? 'line-through text-warm-muted' : 'text-warm-text'}`}>
         {todo.title}
       </span>
       <button
