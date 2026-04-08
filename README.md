@@ -1,4 +1,4 @@
-# Daily Planner Studio
+# Daily Planner
 
 A polished planner app for a class assignment, built with Next.js App Router, Tailwind CSS, and
 client-side state. The app now includes multiple routes, a dynamic day page, shared navigation,

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Daily Planner Studio",
+  title: "Daily Planner",
   description: "A multi-page daily planner with schedule, todos, reminders, and shared navigation.",
 };
 

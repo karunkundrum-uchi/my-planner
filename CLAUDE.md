@@ -1,9 +1,9 @@
 @AGENTS.md
 
-# Daily Planner Studio — Project Guide
+# Daily Planner — Project Guide
 
 ## Project Summary
-Daily Planner Studio is a multi-page Next.js planner built for a class assignment. It combines a
+Daily Planner is a multi-page Next.js planner built for a class assignment. It combines a
 utility dashboard home, a dynamic daily schedule route, and dedicated Todo and Reminder pages, all
 wrapped in a shared layout with navigation and a persistent dark mode toggle.
 

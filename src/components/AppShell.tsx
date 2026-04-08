@@ -35,9 +35,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </span>
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-warm-muted">
-                Class Planner
+                Planner
               </p>
-              <p className="text-sm font-semibold text-warm-text">Daily Planner Studio</p>
+              <p className="text-sm font-semibold text-warm-text">Daily Planner</p>
             </div>
           </Link>
 
