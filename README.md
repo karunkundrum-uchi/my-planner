@@ -19,7 +19,7 @@ and forms for adding schedule items, todos, and reminders.
 - [x] Tailwind styling
 - [x] `CLAUDE.md` documenting the project
 - [x] Playwright MCP configured and verified locally
-- [ ] Vercel deployment with live URL
+- [x] Vercel deployment with live URL
 - [x] Public GitHub repo
 - [x] Multiple git commits
 
@@ -40,4 +40,4 @@ Open `http://localhost:3000`.
 - GitHub: https://github.com/karunkundrum-uchi/my-planner
 
 ## Deployment
-- Vercel URL: pending
+- Vercel URL: https://my-planner-rose.vercel.app/

@@ -89,6 +89,7 @@ interface Reminder {
 - client-side form adding data: yes
 - Tailwind styling: yes
 - Playwright MCP configured: yes
+- live Vercel deployment: yes, `https://my-planner-rose.vercel.app/`
 
 ## Dev
 ```bash
