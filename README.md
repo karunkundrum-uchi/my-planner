@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Daily Planner Studio
 
-## Getting Started
+A polished planner app for a class assignment, built with Next.js App Router, Tailwind CSS, and
+client-side state. The app now includes multiple routes, a dynamic day page, shared navigation,
+and forms for adding schedule items, todos, and reminders.
 
-First, run the development server:
+## Routes
+- `/`
+- `/day`
+- `/day/[date]`
+- `/todos`
+- `/reminders`
 
+## Assignment Checklist
+- [x] At least 4 distinct pages / routes
+- [x] Form that adds data in client-side state
+- [x] Dynamic route
+- [x] Shared layout with navigation
+- [x] Tailwind styling
+- [x] `CLAUDE.md` documenting the project
+- [x] Playwright MCP configured and verified locally
+- [ ] Vercel deployment with live URL
+- [x] Public GitHub repo
+- [x] Multiple git commits
+
+## Local Development
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Notes
+- Data is stored in `localStorage`.
+- Day schedules are keyed by date using `planner-YYYY-MM-DD`.
+- The route `/day` redirects to today’s date.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Repository
+- GitHub: https://github.com/karunkundrum-uchi/my-planner
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+- Vercel URL: pending
