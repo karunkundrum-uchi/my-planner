@@ -4,8 +4,8 @@
 
 ## Project Summary
 Daily Planner Studio is a multi-page Next.js planner built for a class assignment. It combines a
-dynamic daily schedule route with dedicated Todo and Reminder pages, all wrapped in a shared layout
-with navigation and a persistent dark mode toggle.
+utility dashboard home, a dynamic daily schedule route, and dedicated Todo and Reminder pages, all
+wrapped in a shared layout with navigation and a persistent dark mode toggle.
 
 ## Stack
 - Next.js 16 App Router with TypeScript
@@ -15,7 +15,7 @@ with navigation and a persistent dark mode toggle.
 
 ## Pages And Routes
 - `/`
-  - Landing page that explains the project and links into the planner sections.
+  - Utility dashboard showing today shortcut, planner counts, and a preview of today’s schedule.
 - `/day`
   - Redirects to the current day route.
 - `/day/[date]`
@@ -63,10 +63,14 @@ interface Reminder {
 - Todos are stored under `planner-todos`.
 - Reminders are stored under `planner-reminders`.
 - Dark mode preference is stored under `planner-dark-mode`.
+- Client pages subscribe to browser storage changes so saved planner data hydrates cleanly without
+  server/client HTML mismatches.
 
 ## Key Components
 - `AppShell`
   - Shared navigation and dark mode shell for all routes.
+- `HomeUtilityView`
+  - Dashboard-style home page with live planner summaries and today preview.
 - `PlannerDayView`
   - Main client-side day planner for `/day/[date]`.
 - `TodoPanel`
@@ -75,6 +79,8 @@ interface Reminder {
   - Reusable reminder form and list UI.
 - `Header`
   - Day route header with date navigation controls.
+- `browser-store`
+  - Shared client-side storage subscription helpers for dark mode, schedule data, todos, and reminders.
 
 ## Assignment Mapping
 - 4+ distinct routes: yes
