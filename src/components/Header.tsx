@@ -1,37 +1,31 @@
 'use client'
 
+import { formatLongDate, todayStr } from '@/lib/date'
+
 interface Props {
   dateStr: string
-  darkMode: boolean
   onPrev: () => void
   onNext: () => void
   onToday: () => void
-  onToggleDark: () => void
-}
-
-function formatDate(dateStr: string): string {
-  const [year, month, day] = dateStr.split('-').map(Number)
-  const date = new Date(year, month - 1, day)
-  return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
 }
 
 function isToday(dateStr: string): boolean {
-  return dateStr === new Date().toISOString().slice(0, 10)
+  return dateStr === todayStr()
 }
 
-export default function Header({ dateStr, darkMode, onPrev, onNext, onToday, onToggleDark }: Props) {
+export default function Header({ dateStr, onPrev, onNext, onToday }: Props) {
   const today = isToday(dateStr)
 
   return (
-    <div className="sticky top-0 z-10 bg-warm-surface border-b border-warm-border">
-      <div className="flex items-center justify-between px-5 py-3">
-        {/* Brand */}
-        <div className="flex items-center gap-2">
-          <span className="text-warm-accent text-base">✦</span>
-          <span className="text-xs font-bold uppercase tracking-widest text-warm-muted">Daily Planner</span>
+    <div className="border-b border-warm-border bg-warm-surface">
+      <div className="flex flex-col gap-4 px-5 py-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-warm-muted">
+            Daily Route
+          </p>
+          <h1 className="mt-2 text-2xl font-semibold text-warm-text">{formatLongDate(dateStr)}</h1>
         </div>
 
-        {/* Date nav */}
         <div className="flex items-center gap-2">
           <button
             onClick={onPrev}
@@ -41,7 +35,7 @@ export default function Header({ dateStr, darkMode, onPrev, onNext, onToday, onT
             ‹
           </button>
           <div className="text-center min-w-[160px]">
-            <p className="text-sm font-semibold text-warm-text">{formatDate(dateStr)}</p>
+            <p className="text-sm font-semibold text-warm-text">Navigate days</p>
             {today ? (
               <span className="text-[10px] font-medium text-warm-accent">Today</span>
             ) : (
@@ -61,15 +55,6 @@ export default function Header({ dateStr, darkMode, onPrev, onNext, onToday, onT
             ›
           </button>
         </div>
-
-        {/* Dark mode */}
-        <button
-          onClick={onToggleDark}
-          className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-warm-border text-warm-muted transition-colors text-sm"
-          aria-label="Toggle dark mode"
-        >
-          {darkMode ? '☀' : '◑'}
-        </button>
       </div>
     </div>
   )
