@@ -30,18 +30,18 @@ export default function TodosView() {
   const { pending, completed } = buildStats(todos)
 
   return (
-    <section className="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
-      <div className="rounded-[2rem] border border-warm-border bg-warm-surface p-6 shadow-[0_20px_80px_rgba(45,35,32,0.08)]">
+    <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="rounded-[2rem] border border-warm-border bg-warm-surface p-7 shadow-[0_20px_80px_rgba(45,35,32,0.08)] sm:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-warm-muted">
           Task Board
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-warm-text">Todos</h1>
-        <p className="mt-2 max-w-xl text-sm leading-6 text-warm-muted">
+        <h1 className="mt-3 text-4xl font-semibold text-warm-text">Todos</h1>
+        <p className="mt-3 max-w-2xl text-base leading-7 text-warm-muted">
           Capture open loops, errands, and work that should stay visible without crowding the day
           schedule.
         </p>
 
-        <div className="mt-6">
+        <div className="mt-8">
           <TodoPanel
             todos={todos}
             onAdd={handleAddTodo}
@@ -51,21 +51,22 @@ export default function TodosView() {
         </div>
       </div>
 
-      <aside className="rounded-[2rem] border border-warm-border bg-warm-card p-6">
+      <aside className="rounded-[2rem] border border-warm-border bg-warm-card p-7 sm:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-warm-muted">
           Snapshot
         </p>
-        <div className="mt-5 grid gap-3">
+        <div className="mt-6 grid gap-4">
           <div className="rounded-2xl border border-warm-border bg-warm-surface p-4">
             <p className="text-[11px] uppercase tracking-[0.2em] text-warm-muted">Pending</p>
-            <p className="mt-2 text-3xl font-semibold text-warm-text">{pending}</p>
+            <p className="mt-2 text-4xl font-semibold text-warm-text">{pending}</p>
           </div>
           <div className="rounded-2xl border border-warm-border bg-warm-surface p-4">
             <p className="text-[11px] uppercase tracking-[0.2em] text-warm-muted">Completed</p>
-            <p className="mt-2 text-3xl font-semibold text-warm-text">{completed}</p>
+            <p className="mt-2 text-4xl font-semibold text-warm-text">{completed}</p>
           </div>
-          <div className="rounded-2xl border border-dashed border-warm-border p-4 text-sm leading-6 text-warm-muted">
-            Keep the day route focused on scheduling and use this page for backlog management.
+          <div className="rounded-2xl border border-dashed border-warm-border p-5 text-base leading-7 text-warm-muted">
+            Treat this page like a working surface for tasks that matter across the whole day, not
+            just one specific time block.
           </div>
         </div>
       </aside>

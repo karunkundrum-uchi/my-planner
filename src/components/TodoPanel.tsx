@@ -34,15 +34,17 @@ export default function TodoPanel({ todos, onAdd, onToggle, onDelete }: Props) {
   const done = todos.filter(t => t.done)
 
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex items-center justify-between mb-1">
-        <h2 className="text-xs font-bold uppercase tracking-widest text-warm-muted">Todos</h2>
+    <div className="flex flex-col gap-3">
+      <div className="mb-1 flex items-center justify-between">
+        <h2 className="text-sm font-bold uppercase tracking-[0.22em] text-warm-muted">Todos</h2>
         {todos.length > 0 && (
-          <span className="text-xs text-warm-muted">{pending.length} left</span>
+          <span className="rounded-full border border-warm-border bg-warm-card px-3 py-1 text-xs font-medium text-warm-muted">
+            {pending.length} left
+          </span>
         )}
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
         {pending.map(todo => (
           <TodoRow key={todo.id} todo={todo} onToggle={onToggle} onDelete={onDelete} dotColor={dotColor} />
         ))}
@@ -52,7 +54,7 @@ export default function TodoPanel({ todos, onAdd, onToggle, onDelete }: Props) {
       </div>
 
       {adding ? (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-1.5 mt-1 p-2 rounded-lg bg-warm-surface border border-warm-border">
+        <form onSubmit={handleSubmit} className="mt-1 flex flex-col gap-2 rounded-2xl border border-warm-border bg-warm-card p-3">
           <input
             autoFocus
             type="text"
@@ -60,26 +62,26 @@ export default function TodoPanel({ todos, onAdd, onToggle, onDelete }: Props) {
             onChange={e => setTitle(e.target.value)}
             onKeyDown={e => e.key === 'Escape' && setAdding(false)}
             placeholder="New todo..."
-            className="w-full text-xs px-2 py-1 rounded border border-warm-border bg-warm-bg text-warm-text outline-none focus:border-warm-accent placeholder:text-warm-muted"
+            className="w-full rounded-xl border border-warm-border bg-warm-surface px-3 py-2.5 text-sm text-warm-text outline-none focus:border-warm-accent placeholder:text-warm-muted"
           />
-          <div className="flex gap-1">
+          <div className="flex gap-2">
             <select
               value={priority}
               onChange={e => setPriority(e.target.value as Priority)}
-              className="flex-1 text-xs px-1.5 py-1 rounded border border-warm-border bg-warm-bg text-warm-text outline-none"
+              className="flex-1 rounded-xl border border-warm-border bg-warm-surface px-3 py-2.5 text-sm text-warm-text outline-none"
             >
               <option value="high">High</option>
               <option value="medium">Medium</option>
               <option value="low">Low</option>
             </select>
-            <button type="submit" className="text-xs px-2 py-1 rounded bg-warm-accent text-white hover:opacity-90 transition-opacity">Add</button>
-            <button type="button" onClick={() => setAdding(false)} className="text-xs px-2 py-1 rounded text-warm-muted hover:bg-warm-border transition-colors">✕</button>
+            <button type="submit" className="rounded-xl bg-warm-accent px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity">Add</button>
+            <button type="button" onClick={() => setAdding(false)} className="rounded-xl px-3 py-2.5 text-sm text-warm-muted hover:bg-warm-border transition-colors">✕</button>
           </div>
         </form>
       ) : (
         <button
           onClick={() => setAdding(true)}
-          className="text-xs text-warm-muted hover:text-warm-accent transition-colors self-start mt-1"
+          className="mt-1 self-start rounded-full border border-warm-border bg-warm-card px-4 py-2 text-sm font-medium text-warm-muted transition-colors hover:border-warm-accent hover:text-warm-accent"
         >
           + add todo
         </button>
@@ -95,24 +97,24 @@ function TodoRow({ todo, onToggle, onDelete, dotColor }: {
   dotColor: Record<Priority, string>
 }) {
   return (
-    <div className="flex items-center gap-2 group">
+    <div className="group flex items-center gap-3 rounded-2xl border border-warm-border bg-warm-card px-4 py-3.5 transition-colors hover:bg-warm-surface">
       <button
         onClick={() => onToggle(todo.id)}
-        className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center transition-colors ${
+        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${
           todo.done
             ? 'bg-warm-accent border-warm-accent text-white'
             : 'border-warm-border hover:border-warm-accent'
         }`}
       >
-        {todo.done && <span className="text-[9px] leading-none">✓</span>}
+        {todo.done && <span className="text-[10px] leading-none">✓</span>}
       </button>
-      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotColor[todo.priority]}`} />
-      <span className={`flex-1 text-xs leading-snug ${todo.done ? 'line-through text-warm-muted' : 'text-warm-text'}`}>
+      <span className={`h-2 w-2 shrink-0 rounded-full ${dotColor[todo.priority]}`} />
+      <span className={`flex-1 text-sm leading-6 ${todo.done ? 'line-through text-warm-muted' : 'text-warm-text'}`}>
         {todo.title}
       </span>
       <button
         onClick={() => onDelete(todo.id)}
-        className="opacity-0 group-hover:opacity-100 text-warm-muted hover:text-warm-high text-xs transition-all"
+        className="text-sm text-warm-muted opacity-0 transition-all hover:text-warm-high group-hover:opacity-100"
       >
         ×
       </button>
