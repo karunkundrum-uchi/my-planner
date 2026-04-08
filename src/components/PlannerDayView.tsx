@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Priority } from '@/lib/types'
 import { useDaySnapshot, useRemindersSnapshot, useTodosSnapshot } from '@/lib/browser-store'
-import { saveDay } from '@/lib/storage'
+import { saveDay, saveReminders, saveTodos } from '@/lib/storage'
 import { offsetDate, todayStr } from '@/lib/date'
 import Header from './Header'
 import Sidebar from './Sidebar'
@@ -78,6 +78,26 @@ export default function PlannerDayView({ activeDate }: { activeDate: string }) {
   const todoCount = todos.filter((todo) => !todo.done).length
   const reminderCount = reminders.length
 
+  function handleAddTodo(title: string, priority: Priority) {
+    saveTodos([...todos, { id: crypto.randomUUID(), title, done: false, priority }])
+  }
+
+  function handleToggleTodo(id: string) {
+    saveTodos(todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)))
+  }
+
+  function handleDeleteTodo(id: string) {
+    saveTodos(todos.filter((todo) => todo.id !== id))
+  }
+
+  function handleAddReminder(text: string, time?: string) {
+    saveReminders([...reminders, { id: crypto.randomUUID(), text, time }])
+  }
+
+  function handleDeleteReminder(id: string) {
+    saveReminders(reminders.filter((reminder) => reminder.id !== id))
+  }
+
   return (
     <div className="overflow-hidden rounded-[2rem] border border-warm-border bg-warm-surface shadow-[0_20px_80px_rgba(45,35,32,0.08)]">
       <Header
@@ -88,7 +108,17 @@ export default function PlannerDayView({ activeDate }: { activeDate: string }) {
       />
 
       <div className="flex flex-col overflow-hidden lg:flex-row">
-        <Sidebar todoCount={todoCount} reminderCount={reminderCount} />
+        <Sidebar
+          todos={todos}
+          reminders={reminders}
+          todoCount={todoCount}
+          reminderCount={reminderCount}
+          onAddTodo={handleAddTodo}
+          onToggleTodo={handleToggleTodo}
+          onDeleteTodo={handleDeleteTodo}
+          onAddReminder={handleAddReminder}
+          onDeleteReminder={handleDeleteReminder}
+        />
 
         <section className="flex-1 overflow-hidden bg-warm-surface">
           <div className="border-b border-warm-border px-5 py-4">
