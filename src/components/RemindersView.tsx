@@ -25,8 +25,8 @@ export default function RemindersView() {
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-warm-text">Reminders</h1>
         <p className="mt-2 max-w-xl text-sm leading-6 text-warm-muted">
-          Store time-sensitive nudges, quick notes, and checkpoints. The list is client-side and
-          updates immediately as you add or remove reminders.
+          Store time-sensitive nudges, quick notes, and checkpoints so they stay close without
+          interrupting the rest of the plan.
         </p>
 
         <div className="mt-6">

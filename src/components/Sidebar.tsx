@@ -44,8 +44,8 @@ export default function Sidebar({ todoCount, reminderCount }: Props) {
         </div>
 
         <div className="rounded-3xl border border-dashed border-warm-border p-4 text-sm leading-6 text-warm-muted sm:col-span-2 lg:col-span-1">
-          The assignment needs distinct routes, so the daily schedule now links out to dedicated
-          pages for list management.
+          Keep the schedule focused here, then step into the list pages when you want to review
+          loose tasks or reminders in one place.
         </div>
       </div>
     </aside>
