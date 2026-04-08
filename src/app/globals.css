@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --warm-bg: #faf8f5;
+  --warm-surface: #ffffff;
+  --warm-sidebar: #f5ede0;
+  --warm-border: #e8ddd0;
+  --warm-text: #2d2320;
+  --warm-muted: #a0897c;
+  --warm-high: #b94040;
+  --warm-medium: #b87c2a;
+  --warm-low: #4e7c5a;
+  --warm-accent: #8b6f47;
+  --warm-card: #fdf9f5;
+}
+
+.dark {
+  --warm-bg: #1c1814;
+  --warm-surface: #26211c;
+  --warm-sidebar: #211d18;
+  --warm-border: #3a342d;
+  --warm-text: #f0e8de;
+  --warm-muted: #7a6a5e;
+  --warm-high: #c96060;
+  --warm-medium: #c9943a;
+  --warm-low: #6a9e6a;
+  --warm-accent: #b08a60;
+  --warm-card: #2e2820;
+}
+
+@theme inline {
+  --color-warm-bg: var(--warm-bg);
+  --color-warm-surface: var(--warm-surface);
+  --color-warm-sidebar: var(--warm-sidebar);
+  --color-warm-border: var(--warm-border);
+  --color-warm-text: var(--warm-text);
+  --color-warm-muted: var(--warm-muted);
+  --color-warm-high: var(--warm-high);
+  --color-warm-medium: var(--warm-medium);
+  --color-warm-low: var(--warm-low);
+  --color-warm-accent: var(--warm-accent);
+  --color-warm-card: var(--warm-card);
+}
+
+body {
+  background: var(--warm-bg);
+  color: var(--warm-text);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
