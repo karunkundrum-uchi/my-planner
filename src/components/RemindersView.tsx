@@ -1,23 +1,18 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Reminder } from '@/lib/types'
-import { loadReminders, saveReminders } from '@/lib/storage'
+import { useRemindersSnapshot } from '@/lib/browser-store'
+import { saveReminders } from '@/lib/storage'
 import ReminderPanel from './ReminderPanel'
 
 export default function RemindersView() {
-  const [reminders, setReminders] = useState<Reminder[]>(() => loadReminders())
-
-  useEffect(() => {
-    saveReminders(reminders)
-  }, [reminders])
+  const reminders = useRemindersSnapshot()
 
   function handleAddReminder(text: string, time?: string) {
-    setReminders((prev) => [...prev, { id: crypto.randomUUID(), text, time }])
+    saveReminders([...reminders, { id: crypto.randomUUID(), text, time }])
   }
 
   function handleDeleteReminder(id: string) {
-    setReminders((prev) => prev.filter((reminder) => reminder.id !== id))
+    saveReminders(reminders.filter((reminder) => reminder.id !== id))
   }
 
   const scheduledCount = reminders.filter((reminder) => Boolean(reminder.time)).length

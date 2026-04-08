@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { Priority, TodoItem } from '@/lib/types'
-import { loadTodos, saveTodos } from '@/lib/storage'
+import { useTodosSnapshot } from '@/lib/browser-store'
+import { saveTodos } from '@/lib/storage'
 import TodoPanel from './TodoPanel'
 
 function buildStats(todos: TodoItem[]) {
@@ -13,22 +13,18 @@ function buildStats(todos: TodoItem[]) {
 }
 
 export default function TodosView() {
-  const [todos, setTodos] = useState<TodoItem[]>(() => loadTodos())
-
-  useEffect(() => {
-    saveTodos(todos)
-  }, [todos])
+  const todos = useTodosSnapshot()
 
   function handleAddTodo(title: string, priority: Priority) {
-    setTodos((prev) => [...prev, { id: crypto.randomUUID(), title, done: false, priority }])
+    saveTodos([...todos, { id: crypto.randomUUID(), title, done: false, priority }])
   }
 
   function handleToggleTodo(id: string) {
-    setTodos((prev) => prev.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)))
+    saveTodos(todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)))
   }
 
   function handleDeleteTodo(id: string) {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id))
+    saveTodos(todos.filter((todo) => todo.id !== id))
   }
 
   const { pending, completed } = buildStats(todos)
@@ -41,9 +37,8 @@ export default function TodosView() {
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-warm-text">Todos</h1>
         <p className="mt-2 max-w-xl text-sm leading-6 text-warm-muted">
-          Capture assignments, errands, and prep work here. This page uses client-side state with
-          localStorage persistence, so it satisfies the assignment form requirement while staying
-          simple.
+          Capture open loops, errands, and work that should stay visible without crowding the day
+          schedule.
         </p>
 
         <div className="mt-6">

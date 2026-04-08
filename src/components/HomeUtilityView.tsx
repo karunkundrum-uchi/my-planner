@@ -128,19 +128,16 @@ export default function HomeUtilityView() {
           </div>
         </section>
 
-        <Link
-          href="/home-editorial"
-          className="rounded-[2rem] border border-warm-border bg-warm-surface p-6 transition-transform hover:-translate-y-0.5"
-        >
+        <section className="rounded-[2rem] border border-warm-border bg-warm-surface p-6">
           <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-warm-muted">
-            Compare Home Concepts
+            Planning Rhythm
           </p>
-          <h2 className="mt-3 text-2xl font-semibold text-warm-text">Open the editorial variant</h2>
+          <h2 className="mt-3 text-2xl font-semibold text-warm-text">Keep the big picture quiet.</h2>
           <p className="mt-2 text-sm leading-6 text-warm-muted">
-            This alternate home page keeps the same planner actions but leans into a more
-            atmospheric, brand-forward presentation.
+            Use this page to orient the day, then drop into the schedule or lists only when you
+            need detail.
           </p>
-        </Link>
+        </section>
       </div>
     </section>
   )

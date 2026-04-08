@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { DayData, Priority } from '@/lib/types'
-import { loadDay, saveDay, loadReminders, loadTodos } from '@/lib/storage'
+import { Priority } from '@/lib/types'
+import { useDaySnapshot, useRemindersSnapshot, useTodosSnapshot } from '@/lib/browser-store'
+import { saveDay } from '@/lib/storage'
 import { offsetDate, todayStr } from '@/lib/date'
 import Header from './Header'
 import Sidebar from './Sidebar'
@@ -19,15 +20,11 @@ const HOURS = Array.from({ length: 18 }, (_, i) => {
 
 export default function PlannerDayView({ activeDate }: { activeDate: string }) {
   const router = useRouter()
-  const [dayData, setDayData] = useState<DayData>(() => loadDay(activeDate))
-  const [todosCount] = useState(() => loadTodos().filter((todo) => !todo.done).length)
-  const [remindersCount] = useState(() => loadReminders().length)
+  const dayData = useDaySnapshot(activeDate)
+  const todos = useTodosSnapshot()
+  const reminders = useRemindersSnapshot()
   const [currentHour, setCurrentHour] = useState(new Date().getHours())
   const dragRef = useRef<{ hour: string; id: string } | null>(null)
-
-  useEffect(() => {
-    saveDay(activeDate, dayData)
-  }, [activeDate, dayData])
 
   useEffect(() => {
     const id = setInterval(() => setCurrentHour(new Date().getHours()), 60_000)
@@ -39,17 +36,17 @@ export default function PlannerDayView({ activeDate }: { activeDate: string }) {
   }
 
   function handleAdd(hour: string, title: string, priority: Priority) {
-    setDayData((prev) => ({
-      ...prev,
-      [hour]: [...(prev[hour] ?? []), { id: crypto.randomUUID(), title, priority }],
-    }))
+    saveDay(activeDate, {
+      ...dayData,
+      [hour]: [...(dayData[hour] ?? []), { id: crypto.randomUUID(), title, priority }],
+    })
   }
 
   function handleDelete(hour: string, id: string) {
-    setDayData((prev) => ({
-      ...prev,
-      [hour]: (prev[hour] ?? []).filter((event) => event.id !== id),
-    }))
+    saveDay(activeDate, {
+      ...dayData,
+      [hour]: (dayData[hour] ?? []).filter((event) => event.id !== id),
+    })
   }
 
   function handleDragStart(e: React.DragEvent, hour: string, id: string) {
@@ -64,22 +61,22 @@ export default function PlannerDayView({ activeDate }: { activeDate: string }) {
     const { hour: srcHour, id } = dragRef.current
     if (srcHour === targetHour) return
 
-    setDayData((prev) => {
-      const src = prev[srcHour] ?? []
-      const event = src.find((item) => item.id === id)
-      if (!event) return prev
+    const src = dayData[srcHour] ?? []
+    const event = src.find((item) => item.id === id)
+    if (!event) return
 
-      return {
-        ...prev,
-        [srcHour]: src.filter((item) => item.id !== id),
-        [targetHour]: [...(prev[targetHour] ?? []), event],
-      }
+    saveDay(activeDate, {
+      ...dayData,
+      [srcHour]: src.filter((item) => item.id !== id),
+      [targetHour]: [...(dayData[targetHour] ?? []), event],
     })
 
     dragRef.current = null
   }
 
   const isToday = activeDate === todayStr()
+  const todoCount = todos.filter((todo) => !todo.done).length
+  const reminderCount = reminders.length
 
   return (
     <div className="overflow-hidden rounded-[2rem] border border-warm-border bg-warm-surface shadow-[0_20px_80px_rgba(45,35,32,0.08)]">
@@ -91,7 +88,7 @@ export default function PlannerDayView({ activeDate }: { activeDate: string }) {
       />
 
       <div className="flex flex-col overflow-hidden lg:flex-row">
-        <Sidebar todoCount={todosCount} reminderCount={remindersCount} />
+        <Sidebar todoCount={todoCount} reminderCount={reminderCount} />
 
         <section className="flex-1 overflow-hidden bg-warm-surface">
           <div className="border-b border-warm-border px-5 py-4">
