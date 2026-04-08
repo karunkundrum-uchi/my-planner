@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useDarkModePreference, writePlannerStorage } from '@/lib/browser-store'
 
 const NAV_ITEMS = [
   { href: '/', label: 'Home' },
@@ -18,13 +19,10 @@ function isActive(pathname: string, href: string): boolean {
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const [darkMode, setDarkMode] = useState(
-    () => typeof window !== 'undefined' && localStorage.getItem('planner-dark-mode') === 'true'
-  )
+  const darkMode = useDarkModePreference()
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode)
-    localStorage.setItem('planner-dark-mode', String(darkMode))
   }, [darkMode])
 
   return (
@@ -66,7 +64,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </nav>
 
             <button
-              onClick={() => setDarkMode((value) => !value)}
+              onClick={() => writePlannerStorage('planner-dark-mode', String(!darkMode))}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-warm-border bg-warm-surface text-sm text-warm-muted transition-colors hover:text-warm-text"
               aria-label="Toggle dark mode"
             >
